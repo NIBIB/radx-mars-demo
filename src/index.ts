@@ -39,13 +39,12 @@ const aimsHubProvider = new AimsHubProvider(
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const reportStreamHubProvider = new ReportStreamHubProvider(
   {
-    privatePemString: `
-	YOUR REPORTSTREAM PROVIDED PEM HERE
-`,
+    privatePemString: `-----BEGIN YOUR REPORTSTREAM PRIVATE KEY-----
+-----END YOUR REPORTSTREAM PRIVATE KEY-----`,
     algorithm: 'ES384',
-    clientId: 'YOUR CLIENT ID',
-    kid: 'YOUR KID',
-    scope: 'YOUR SCOPE'
+    clientId: 'your-client-id',
+    kid: 'your-client-id.default',
+    scope: 'your-client-id.*.report'
   },
   false)
 
@@ -55,7 +54,7 @@ const debugHubProvider = new DebugHubProvider()
 // Create a new MARSClient. This is the entryway into the library.
 // A mars client handles HL7 generation and submission of the HL7
 // message to the configured Hub on behalf of the configured lab.
-const client = new MarsClient(reportStreamHubProvider, new AbbottLabInfo())
+const client = new MarsClient(debugHubProvider, new AbbottLabInfo())
 
 // Create a result submitter. The result submitter allows a configured
 // client to submit results for more than one type of test to the
@@ -157,9 +156,9 @@ const invalidTestResult2 = new BinaxNowCovidTestResult(
 // mars client).
 console.log('Submitting result')
 
-void resultSubmitter.submitResult(
+resultSubmitter.submitResult(
   patient,
   testKit,
-  [negativeTestResult])
-
-console.log('Submitted.')
+  [negativeTestResult]).then((b) => {
+  if (b) { console.log('Submitted successfully') } else { console.log('error') }
+}).catch((e) => { console.log(e) })

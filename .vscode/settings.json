@@ -22,6 +22,7 @@
 		}
 	],
 	"editor.formatOnSave": false,
+	"files.eol": "\n",
 	"peacock.remoteColor": "#f9e64f",
 	"workbench.colorCustomizations": {
 		"activityBar.activeBackground": "#fbed80",

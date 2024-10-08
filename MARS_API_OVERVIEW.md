@@ -9,19 +9,19 @@ Both current MARS hubs receive test results as HL7 ELR 2.5.1 messages.  The MARS
 The API developed by Meadows Design for interfacing with RADx MARS hubs has three distinct libraries: The RADx MARS Library, the AIMS MARS Library, and the ReportStream MARS Library.
 
 ### RADx MARS Library
-The RADx MARS Library will be identified as `radx-mars-lib`` in NPM and is currently hosted on [Bitbucket](https://bitbucket.org/meadowsdesign/radx-mars-lib/).  It contains base class libraries representing several of the segments defined in HL7 ELR 2.5.1 messages as well as interfaces to implement by hubs in order to facßßilitate message construction and delivery to a RADx MARS hub.
+The RADx MARS Library is identified as `radx-mars-lib` in NPM and is currently hosted on [GitHub](https://github.com/NIBIB/radx-mars-lib/).  It contains base class libraries representing several of the segments defined in HL7 ELR 2.5.1 messages as well as interfaces to implement by hubs in order to facßßilitate message construction and delivery to a RADx MARS hub.
 
 Defined in this library is the `MarsHubProvider` interface – a key component in the RADx MARS library ecosystem. It enables RADx MARS Hubs to integrate with the RADx MARS Library by implementing this interface in their own libraries. This design allows the RADx MARS Library to remain agnostic to the specific communication methods used by individual hubs. The primary role of the `MarsHubProvider` interface is to standardize the message delivery mechanism, allowing the RADx MARS Library to focus on message construction while abstracting away the details of the delivery process.
 
 Both the AIMS and ReportStream libraries depend on the RADx MARS Library and both implement their own versions of the `MarsHubProvider` interface.  The AIMS and ReportStream libraries can be used interchangeably allowing the developer to change the RADx MARS Hub targeted by their application.
 
 ### AIMS MARS Library
-The AIMS MARS Library will be identified as `aims-mars-lib` in NPM and is currently hosted at [Bitbucket](https://bitbucket.org/meadowsdesign/aims-mars-lib/).  It contains a `MarsHubProvider` implementation for communicating with APHL’s AIMS MARS Hub and any supporting classes needed to fulfill the implementation.
+The AIMS MARS Library is identified as `aims-mars-lib` in NPM and is currently hosted at [GitHub](https://github.com/NIBIB/aims-mars-lib/).  It contains a `MarsHubProvider` implementation for communicating with APHL’s AIMS MARS Hub and any supporting classes needed to fulfill the implementation.
 
 **Note**: Inclusion of this library within an application does not grant the implementor access to the AIMS MARS Hub itself. The implementor’s organization must still follow the onboarding certifications and processes mandated by APHL AIMS to enable their application to report results through the APHL AIMS MARS Hub.
 
 ### ReportStream MARS Library
-The ReportStream MARS Library will be identified as `reportstream-mars-lib` in NPM and is currently hosted at [Bitbucket](https://bitbucket.org/meadowsdesign/reportstream-mars-lib/).  It contains a `MarsHubProvider` implementation for communicating with the CDC’s ReportStream MARS Hub as well any necessary supporting classes.
+The ReportStream MARS Library is identified as `reportstream-mars-lib` in NPM and is currently hosted at [GitHub](https://github.com/NIBIB/reportstream-mars-lib/).  It contains a `MarsHubProvider` implementation for communicating with the CDC’s ReportStream MARS Hub as well any necessary supporting classes.
 
 **Note**: As with the APHL AIMS Mars Hub, inclusion of this library within an application does not grant the implementor access to the ReportStream MARS Hub itself. The implementor’s organization must still follow the onboarding certifications and processes mandated by the CDC to enable their application to report results through the CDC ReportStream MARS Hub.
 

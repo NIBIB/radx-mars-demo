@@ -9,6 +9,7 @@ import { TestResultCode } from 'radx-mars-lib'
  * you adjust the codes that correspond to the codes presented in the PowerBI
  * dashboard under the OBX[1]-5 section.
  */
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class BinaxNowCovidDetectedTestResultCodes {
   static readonly Detected = new TestResultCode('260373001', 'Detected')
   static readonly NotDetected = new TestResultCode('260415000', 'Not Detected')
