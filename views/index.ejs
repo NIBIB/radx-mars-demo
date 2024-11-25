@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submission Checker</title>
+  <script>
+    async function fetchResult() {
+      const type = document.getElementById('submissionType').value;
+      const submissionId = document.getElementById('submissionId').value;
+      const resultArea = document.getElementById('result');
+
+      try {
+        const response = await fetch('/retrieve-result', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ type, submissionId })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to retrieve result');
+        }
+
+        const data = await response.json();
+        resultArea.value = data.result;
+      } catch (error) {
+        resultArea.value = 'Error: ' + error.message;
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Submission Checker</h1>
+  <form onsubmit="event.preventDefault(); fetchResult();">
+    <label for="submissionType">Select Submission Type:</label>
+    <select id="submissionType" name="submissionType">
+      <option value="AIMS">AIMS</option>
+      <option value="ReportStream">ReportStream</option>
+    </select>
+    <br><br>
+    <label for="submissionId">Submission ID:</label>
+    <input type="text" id="submissionId" name="submissionId" required>
+    <br><br>
+    <button type="submit">Check Submission</button>
+  </form>
+  <br>
+  <label for="result">Result:</label>
+  <textarea id="result" rows="10" cols="50" readonly></textarea>
+</body>
+</html>

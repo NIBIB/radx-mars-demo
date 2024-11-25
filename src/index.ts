@@ -6,6 +6,8 @@ import {
   TestResultAbnormalFlagsCode
 } from 'radx-mars-lib'
 
+import { NistHubProvider } from 'nist-mars-lib'
+
 // Instantiate the required arguments
 import { AimsHubProvider } from 'aims-mars-lib'
 import { ReportStreamHubProvider } from 'reportstream-mars-lib'
@@ -28,7 +30,12 @@ import DebugHubProvider from './DebugHubProvider'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const aimsHubProvider = new AimsHubProvider(
   'RADx',
-  { bucketPath: 'YOUR-AIMS-PROVIDED-BUCKET-PATH-HERE/' },
+  {
+    bucketPath: '{bucket-path-without-sendto}',
+    accessKey: '',
+    region: '',
+    secretAccessKey: ''
+  },
   false)
 
 // Instantiate the reportstream provider using the credentials
@@ -39,18 +46,20 @@ const aimsHubProvider = new AimsHubProvider(
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const reportStreamHubProvider = new ReportStreamHubProvider(
   {
-    privatePemString: `-----BEGIN YOUR REPORTSTREAM PRIVATE KEY-----
------END YOUR REPORTSTREAM PRIVATE KEY-----`,
+    privatePemString: `-----BEGIN EC PRIVATE KEY-----
+-----END EC PRIVATE KEY-----`,
     algorithm: 'ES384',
-    clientId: 'your-client-id',
-    kid: 'your-client-id.default',
-    scope: 'your-client-id.*.report'
+    clientId: '',
+    kid: '',
+    scope: ''
   },
   false)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const debugHubProvider = new DebugHubProvider()
+const debugHubProvider = new DebugHubProvider(aimsHubProvider)
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const nistHubProvider = new NistHubProvider(aimsHubProvider)
 // Create a new MARSClient. This is the entryway into the library.
 // A mars client handles HL7 generation and submission of the HL7
 // message to the configured Hub on behalf of the configured lab.
@@ -154,11 +163,23 @@ const invalidTestResult2 = new BinaxNowCovidTestResult(
 // the mars client and submits results for a specific test to the hub
 // (provided to the mars client) for a specific test (also provided to the
 // mars client).
+
 console.log('Submitting result')
 
 resultSubmitter.submitResult(
   patient,
   testKit,
-  [negativeTestResult]).then((b) => {
-  if (b) { console.log('Submitted successfully') } else { console.log('error') }
-}).catch((e) => { console.log(e) })
+  [negativeTestResult]
+).then(
+  (b) => {
+    if (b.successful) {
+      console.log(`Submitted successfully: ${JSON.stringify(b)}`)
+    } else {
+      console.log(`Submission failed: ${JSON.stringify(b)}`)
+    }
+  }
+).catch(
+  (e) => {
+    console.log(e)
+  }
+)
