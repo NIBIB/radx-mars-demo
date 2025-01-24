@@ -3,7 +3,9 @@ import {
   Patient,
   TestKit,
   ExtendedAddress,
-  TestResultAbnormalFlagsCode
+  TestResultAbnormalFlagsCode,
+  PatientSymptomatic,
+  PatientSymptomaticDeclaration
 } from 'radx-mars-lib'
 
 import { NistHubProvider } from 'nist-mars-lib'
@@ -114,7 +116,8 @@ const patient = new Patient(
   null,
   null,
   null,
-  null
+  null,
+  new PatientSymptomatic(PatientSymptomaticDeclaration.Symptomatic, new Date())
 )
 
 // Gather information about our test kit.  Your information may be obtained

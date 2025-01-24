@@ -1,6 +1,6 @@
 {
   "name": "radx-mars-demo",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "MARS Demo for submitting lab results to AIMS and ReportStream.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
