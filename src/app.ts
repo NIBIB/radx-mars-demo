@@ -1,7 +1,6 @@
 import express from 'express'
 import { MarsClient } from 'radx-mars-lib'
 import { AimsHubProvider } from 'aims-mars-lib'
-import { ReportStreamHubProvider } from 'reportstream-mars-lib'
 import AbbottLabInfo from './AbbottLabInfo'
 
 const app = express()
@@ -24,20 +23,28 @@ const aimsHubProvider = new AimsHubProvider('RADx', {
   secretAccessKey: ''
 }, false)
 
-const reportStreamHubProvider = new ReportStreamHubProvider({
-  privatePemString: `-----BEGIN EC PRIVATE KEY-----
------END EC PRIVATE KEY-----`,
-  algorithm: 'ES384',
-  clientId: '',
-  kid: '',
-  scope: ''
-}, false)
+// NOTE: ReportStream is no longer supported by the RADx MARS Library or
+// program.  ReportStream code is left here for reference purposes.  The
+// ReportStream provider will only be updated for high vulnerability
+// security patches.
+// const reportStreamHubProvider = new ReportStreamHubProvider({
+//   privatePemString: `-----BEGIN EC PRIVATE KEY-----
+// -----END EC PRIVATE KEY-----`,
+//   algorithm: 'ES384',
+//   clientId: '',
+//   kid: '',
+//   scope: ''
+// }, false)
 
-const reportStreamClient = new MarsClient(reportStreamHubProvider, new AbbottLabInfo())
+// const reportStreamClient = new MarsClient(
+//   reportStreamHubProvider,
+//   new AbbottLabInfo()
+// )
 const aimsClient = new MarsClient(aimsHubProvider, new AbbottLabInfo())
 
 const aimsResultChecker = aimsClient.createHubSubmissionResultRetriever()
-const reportStreamResultChecker = reportStreamClient.createHubSubmissionResultRetriever()
+// const reportStreamResultChecker =
+//   reportStreamClient.createHubSubmissionResultRetriever()
 
 // Route to render the form
 app.get('/', (req, res) => {
@@ -46,15 +53,17 @@ app.get('/', (req, res) => {
 
 // Endpoint to handle submission retrieval
 app.post('/retrieve-result', async (req, res) => {
-  const { type, submissionId } = req.body
+  const { /* type, */ submissionId } = req.body
 
   try {
-    let result
-    if (type === 'AIMS') {
-      result = await aimsResultChecker.retrieveSubmissionResult(submissionId)
-    } else {
-      result = await reportStreamResultChecker.retrieveSubmissionResult(submissionId)
-    }
+    const result = await aimsResultChecker.retrieveSubmissionResult(submissionId)
+    // if (type === 'AIMS') {
+    //   result = await aimsResultChecker.retrieveSubmissionResult(submissionId)
+    // } else {
+    //   result = await reportStreamResultChecker.retrieveSubmissionResult(
+    //     submissionId
+    //   )
+    // }
 
     // Format the result to be displayed as requested
     const formattedResult = `
