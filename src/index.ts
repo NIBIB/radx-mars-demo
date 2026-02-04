@@ -12,7 +12,12 @@ import { NistHubProvider } from 'nist-mars-lib'
 
 // Instantiate the required arguments
 import { AimsHubProvider } from 'aims-mars-lib'
-import { ReportStreamHubProvider } from 'reportstream-mars-lib'
+
+// NOTE: ReportStream is no longer supported by the RADx MARS Library or
+// program.  ReportStream code is left here for reference purposes.  The
+// ReportStream provider will only be updated for high vulnerability
+// security patches.
+// import { ReportStreamHubProvider } from 'reportstream-mars-lib'
 
 import AbbottLabInfo from './AbbottLabInfo'
 import BinaxNowCovidTest from './BinaxNowCovidTest'
@@ -40,31 +45,40 @@ const aimsHubProvider = new AimsHubProvider(
   },
   false)
 
+// NOTE: ReportStream is no longer supported by the RADx MARS Library or
+// program.  ReportStream code is left here for reference purposes.  The
+// ReportStream provider will only be updated for high vulnerability
+// security patches.
+
 // Instantiate the reportstream provider using the credentials
 // provided by ReportStream.  In a real application, you should not embed
 // credentials in the code but should, instead, pull them from some secure
 // service, from environment variables, etc.  We've left in some values to
 // provide you an example of what your configuration MAY look like.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const reportStreamHubProvider = new ReportStreamHubProvider(
-  {
-    privatePemString: `-----BEGIN EC PRIVATE KEY-----
------END EC PRIVATE KEY-----`,
-    algorithm: 'ES384',
-    clientId: '',
-    kid: '',
-    scope: ''
-  },
-  false)
+// const reportStreamHubProvider = new ReportStreamHubProvider(
+//   {
+//     privatePemString: `-----BEGIN EC PRIVATE KEY-----
+// -----END EC PRIVATE KEY-----`,
+//     algorithm: 'ES384',
+//     clientId: '',
+//     kid: '',
+//     scope: ''
+//   },
+//   false)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const debugHubProvider = new DebugHubProvider(aimsHubProvider)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const nistHubProvider = new NistHubProvider(aimsHubProvider)
+
 // Create a new MARSClient. This is the entryway into the library.
 // A mars client handles HL7 generation and submission of the HL7
 // message to the configured Hub on behalf of the configured lab.
+// We are currently using the debugHubProvider, but we could easily
+// switch this to the AIMS provider for submission or NIST provider
+// for validation.
 const client = new MarsClient(debugHubProvider, new AbbottLabInfo())
 
 // Create a result submitter. The result submitter allows a configured

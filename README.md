@@ -1,14 +1,17 @@
 # Walkthrough of `radx-mars-demo`
 
 ## Overview
-The `radx-mars-demo` is a TypeScript project demonstrating the use of the `radx-mars-lib` and its extensions for constructing and submitting HL7 messages to MARS Hubs. The demo includes setting up the necessary configurations, creating patient and test data, and demonstrating the submission process.  In this demo we construct an HL7 message submitting the result of an Abbott Labs' BinaxNow test to a MARS hub.
+The [`radx-mars-demo`](https://github/com/NIBIB/radx-mars-demo) is a TypeScript project demonstrating the use of the `radx-mars-lib` and its extensions for constructing and submitting HL7 messages to MARS Hubs. The demo includes setting up the necessary configurations, creating patient and test data, and demonstrating the submission process.  In this demo we construct an HL7 message submitting the result of an Abbott Labs' BinaxNow test to a MARS hub.
+
+For an overview of the MARS API as well as information on the demos in this project, please read [`MARS_API_OVERVIEW.md`](MARS_API_OVERVIEW.md)
 
 ### Before We Begin
-This demo relies on a set of three libraries briefly enumerated as follows:
+This demo relies on a set of four libraries briefly enumerated as follows:
 
-* `radx-mars-lib` - A library containing a set of base classes, interfaces, models, and classes upon which additional libraries can and have been built.  This library contains all of the core classes responsible for constructing an HL7 ELR 2.5.1 with all content required by MARS Hubs as defined by the NIH and validated by the NIST HL7 ELR 2.5.1 validator.  The construction of the HL7 message is abstracted into a set of friendly model classes.  The delivery of the HL7 message is coorrdinated internally through a set of internal classes and an implementation of a `MarsHubProvider`.  
-* `aims-mars-lib` - This library contains an implementation of a `MarsHubProvider` capable of delivering an HL7 message generated from within `radx-mars-lib` to the APHL AIMS MARS Hub.  You will leverage this library if you want to deliver your HL7 messages through AIMS.  This library requires the `radx-mars-lib` library as a dependency.
-* `reportstream-mars-lib` - This library contains an implementation of a `MarsHubProvider` capable of delivering an HL7 message generated from within `radx-mars-lib` to the CDC Report Stream MARS Hub.  You will leverage this library if you want to deliver your HL7 messages through Report Stream.  This library requires the `radx-mars-lib` library as a dependency.
+* [`radx-mars-lib`](https://github/com/NIBIB/radx-mars-lib) - A library containing a set of base classes, interfaces, models, and classes upon which additional libraries can and have been built.  This library contains all of the core classes responsible for constructing an HL7 ELR 2.5.1 with all content required by MARS Hubs as defined by the NIH and validated by the NIST HL7 ELR 2.5.1 validator.  The construction of the HL7 message is abstracted into a set of friendly model classes.  The delivery of the HL7 message is coorrdinated internally through a set of internal classes and an implementation of a `MarsHubProvider`.  
+* [`aims-mars-lib`](https://github.com/NIBIB/aims-mars-lib) - This library contains an implementation of a `MarsHubProvider` capable of delivering an HL7 message generated from within `radx-mars-lib` to the APHL AIMS MARS Hub.  You will leverage this library if you want to deliver your HL7 messages through AIMS.  This library requires the `radx-mars-lib` library as a dependency.
+* [`nist-mars-lib`](https://github.com/NIBIB/aims-mars-lib) - This library contains an implementation of a `MarsHubProvider` capable of delivering an HL7 message generated from within `radx-mars-lib` to the [NIST HL7 Validator](https://hl7v2-gvt.nist.gov/gvt/#/home).  You can leverage this library to test the content of your HL7 messages.  This library requires the `radx-mars-lib` library as a dependency. You will also need to have appropriate access to a RADx MARS hub and your test must appear in the [Test-Specific HL7v2 Field Values](https://app.powerbi.com/view?r=eyJrIjoiZWZjZDQyYjktNGFiMC00YWZkLTg2NTYtMjg2ODEyZWM1ZTViIiwidCI6IjQzNGUwYWVkLWVmODItNDU2OC1hMDQ5LTNiMTdhZGMwOGRkZCIsImMiOjF9&pageName=ReportSection3147535a75468ee60d16) PowerBI sheet as defined in the [NIH HL7v2 Getting Started Guide](https://www.nibib.nih.gov/programs/radx-tech-program/mars/hl7v2-getting-started).
+* [`reportstream-mars-lib`](https://github.com/NIBIB/reportstream-mars-lib) (**Deprecated**) - This library contains an implementation of a `MarsHubProvider` capable of delivering an HL7 message generated from within `radx-mars-lib` to the CDC Report Stream MARS Hub.  You will leverage this library if you want to deliver your HL7 messages through Report Stream.  This library requires the `radx-mars-lib` library as a dependency.
 
 During the demo we will construct a `MarsClient`.  The `MarsClient` class is defined in `radx-mars-lib` and serves as the coordinator of all activity.  It is responsible for initating the construction of the HL7 message and constructing a `LabResultSubmitter` class used to submit HL7 messages specific to a particular test to a MARS Hub implemented as a `MarsHubProvider`.  This should become clearer as we walk through the construction of this demo.
 
@@ -17,7 +20,9 @@ During the demo we will construct a `MarsClient`.  The `MarsClient` class is def
 ## Step-by-Step Implementation
 
 ### Setting Up Hub Providers
-The demo begins by initializing two hub providers, `AimsHubProvider` from `aims-mars-lib` and `ReportStreamHubProvider` from `reportstream-mars-lib`. These are configured with necessary details for connecting to their respective MARS Hubs.  You will need to retrieve credentials for your chosen provider from the provider maintainer.  You will typically only use a single provider in your solution.  We have included in this demo a simple `DebugHubProvider` class you can use to view the message you would otherwise send to a MARS provider.
+The demo begins by initializing two hub providers, `AimsHubProvider` from [`aims-mars-lib`](https://github.com/NIBIB/aims-mars-lib) and `ReportStreamHubProvider` from [`reportstream-mars-lib`](https://github.com/NIBIB/reportstream-mars-lib). These are configured with necessary details for connecting to their respective MARS Hubs.  You will need to retrieve credentials for your chosen provider from the provider maintainer.  You will typically only use a single provider in your solution.  We have included in this demo a simple `DebugHubProvider` class you can use to view the message you would otherwise send to a MARS provider.
+
+**IMPORTANT:** ReportStream is no longer supported by the RADx MARS Library and the repo is only updated for security patches.
 
 ```typescript
 const aimsHubProvider = new AimsHubProvider('RADx', { bucketPath: '...' }, false);
@@ -75,3 +80,5 @@ In this step, the `submitResult` method of the result submitter is called with t
 ---
 
 This walkthrough covers the key steps implemented in the `radx-mars-demo` project. It demonstrates how the `radx-mars-lib` and its extensions can be utilized to construct HL7 messages and interact with different MARS Hubs. The demo provides a practical example of setting up necessary configurations, preparing patient and test data, and submitting this data as an HL7 message. 
+
+For more information about the RADx MARS Project, this demo, or the libraries in general, please review the [MARS API Overview](MARS_API_OVERVIEW.md) documentation.
