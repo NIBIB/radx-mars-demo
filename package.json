@@ -18,7 +18,7 @@
   "author": "Meadows Design, Andy Meadows",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.440.0",
+    "@aws-sdk/client-s3": "^3.982.0",
     "aims-mars-lib": "^2.0.0",
     "express": "^4.21.1",
     "nist-mars-lib": "^1.0.0",
