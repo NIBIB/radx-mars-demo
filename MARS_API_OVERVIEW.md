@@ -1,7 +1,12 @@
 # RADx MARS API Overview
+
+- *This repository has been archived and is no longer maintained.*
+- *The code is provided for historical reference and may contain unpatched or unknown vulnerabilities.*
+- *It should not be used in production systems.*
+
 MARS is Mobile At Home Reporting through Standards.  When developing an application/reader under EUA, it is required that the application report results to health departments.  MARS works to facilitate this.  Under funding by the NIH via the RADx program and facilitated by VentureWell, Meadows Design has developed a TypeScript API capable of interfacing with both current RADx MARS hubs – AIMS (developed by APHL) and ReportStream (developed by the CDC) – in ReactNative mobile applications, NodeJS server applications, or any development environment capable of supporting TypeScript.
 
-Mobile applications developed under the auspices of an EUA are required to follow a specific flow.  That flow is defined at https://www.nibib.nih.gov/covid-19/radx-tech-program/mars/mobile-application-guidance.   In addition to the flow, this page also defines the requirements for fields that must be requested as well as fields that must be gathered by the application when submitting results to a MARS hub.
+Mobile applications developed under the auspices of an EUA are required to follow a specific flow.  That flow is defined at [`Mobile Application Guidance `](https://web.archive.org/web/20250420034840/https://www.nibib.nih.gov/programs/radx-tech-program/mars/mobile-application-guidance).   In addition to the flow, this page also defines the requirements for fields that must be requested as well as fields that must be gathered by the application when submitting results to a MARS hub.
 
 Both current MARS hubs receive test results as HL7 ELR 2.5.1 messages.  The MARS API developed by Meadows Design not only facilitates the delivery of messages but also the construction of HL7 ELR 2.5.1 messages themselves.  This removes the burden of understanding the expansive scope of HL7 from the implementor, allowing them to focus on their detection technology and not the specifications underlying their reporting requirements.
 
@@ -25,11 +30,11 @@ The NIST MARS Library is identified as [`nist-mars-lib`](https://github.com/NIBI
 
 Note without a properly registered test, you may receive validation errors that are NOT paylaod specific.
 
-For information on getting started, including registering your test, please review the [RADx MARS Getting Started Guide](https://www.nibib.nih.gov/programs/radx-tech-program/mars/hl7v2-getting-started).
+For information on getting started, including registering your test, please review the [RADx MARS Getting Started Guide](https://web.archive.org/web/20251210013117/https://www.nibib.nih.gov/programs/radx-tech-program/mars/hl7v2-getting-started).
 
-For current valid HL7 payload content, please review the NIH's [RADx HL7v2 Implementation Guide](https://www.nibib.nih.gov/programs/radx-tech-program/mars/HL7v2-implementation-guide).
+For current valid HL7 payload content, please review the NIH's [RADx HL7v2 Implementation Guide](https://web.archive.org/web/20250908105301/https://www.nibib.nih.gov/programs/radx-tech-program/mars/HL7v2-implementation-guide).
 
-For links to the NIST validator and instructions on its use, please review the NIH's [Message Validation Guide](https://www.nibib.nih.gov/programs/radx-tech-program/mars/validation).
+For links to the NIST validator and instructions on its use, please review the NIH's [Message Validation Guide](https://web.archive.org/web/20251118082447/https://www.nibib.nih.gov/programs/radx-tech-program/mars/validation).
 
 ### ReportStream MARS Library
 **IMPORTANT:** ReportStream is no longer supported by the RADx MARS Library and the repo is only updated for security patches.
